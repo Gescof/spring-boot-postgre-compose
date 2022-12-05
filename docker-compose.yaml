@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_USER: compose-postgres
+      POSTGRES_PASSWORD: compose-postgres
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - db
+    restart: unless-stopped
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
