@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -64,11 +65,13 @@ class CustomersServiceTest {
         // Assert
         verify(customersRepositoryMock, times(1)).findAll();
         verify(customersMapper, times(1)).customerEntityListToCustomerResponseList(mockedCustomerEntityList);
-        assertEquals(mockedCustomerResponseList.size(), result.size());
-        assertEquals(mockedCustomerResponseList.get(0).getId(), result.get(0).getId());
-        assertEquals(mockedCustomerResponseList.get(0).getName(), result.get(0).getName());
-        assertEquals(mockedCustomerResponseList.get(0).getEmail(), result.get(0).getEmail());
-        assertEquals(mockedCustomerResponseList.get(0).getAge(), result.get(0).getAge());
+        assertAll("Customer response list should contain valid properties",
+                () -> assertEquals(mockedCustomerResponseList.size(), result.size()),
+                () -> assertEquals(mockedCustomerResponseList.get(0).getId(), result.get(0).getId()),
+                () -> assertEquals(mockedCustomerResponseList.get(0).getName(), result.get(0).getName()),
+                () -> assertEquals(mockedCustomerResponseList.get(0).getEmail(), result.get(0).getEmail()),
+                () -> assertEquals(mockedCustomerResponseList.get(0).getAge(), result.get(0).getAge())
+        );
     }
 
     @Test
